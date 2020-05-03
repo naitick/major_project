@@ -3,6 +3,7 @@ from textblob import TextBlob
 from gtts import gTTS
 import os
 from pygame import mixer
+import pygame
 
 #Sample rate is how often values are recorded 
 sample_rate = 48000
@@ -58,3 +59,5 @@ myobj.save("w.mp3")
 mixer.init()
 mixer.music.load('w.mp3')
 mixer.music.play()
+while pygame.mixer.music.get_busy(): 
+    pygame.time.Clock().tick(10)
