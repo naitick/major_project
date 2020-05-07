@@ -3,8 +3,14 @@ from textblob import TextBlob
 from gtts import gTTS
 import os
 from pygame import mixer
-import pygame
-import smtplib 
+from tkinter import *
+
+root=Tk()
+root.geometry('800x400')
+root.title("Google's Speech Application")
+root.config(background='powder blue')
+
+lab1=Label(root,text='Text To Speech Convertor',bg='powder blue',fg='black',font=('arial 16 bold')).pack()
 
 def speech2text():
     #Sample rate is how often values are recorded 
@@ -45,62 +51,42 @@ def speech2text():
           
         except sr.RequestError as e: 
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
+    return texts
 
-    langs=input('Enter the languange in which you want to convert:')
-    trtext=TextBlob(texts)
-    tr_text=trtext.translate(to=langs)
-    print(tr_text)
+inptext=speech2text()
+inp_text = "Input speech is : " + inptext
+print("the input text is : ", inptext)
+lab2=Label(root,text=inp_text,font=('arial 16'),bg='powder blue',fg='black').pack()
+mytext=StringVar()
+lab3=Label(root,text='Enter language',font=('arial 16'),bg='powder blue',fg='black').pack()
+lan=StringVar()
+
+def fetch():
+    trtext=TextBlob(inptext)
+    language=lan.get()
+    tr_text=trtext.translate(to=language)
     ntext=str(tr_text)
-    text2speech(ntext, langs)
+    fintext = "translated text : " + ntext
+    labn=Label(root,text=fintext,font=('arial 16'),bg='powder blue',fg='black').place(x=200, y=200)
+    myob=gTTS(text=ntext,lang=language,slow=False)
+    myob.save('Voice1.mp3')
 
-    return ntext
-
-
-def text2speech(ntext, langs):
-
-    myobj = gTTS(text=ntext, lang=langs, slow=False) 
-      
-    ## Saving the converted audio in a mp3 file named welcome  
-    myobj.save("w.mp3") 
-      
-    ## Playing the converted file 
-    mixer.init()
-    mixer.music.load('w.mp3')
-    mixer.music.play()
-    while pygame.mixer.music.get_busy(): 
-        pygame.time.Clock().tick(10)
+def play():
+   from pygame import mixer
+   mixer.init()
+   mixer.music.load("Voice1.mp3")
+   mixer.music.play()
 
 
-def send_email():
-    # Python code to illustrate Sending mail from  
-    # your Gmail account  
-    
-    email_text = speech2text()
-    print("the email text is : ", email_text)
-    # creates SMTP session 
-    s = smtplib.SMTP('smtp.gmail.com', 587) 
-    print("smtp client : ", s)
-    # start TLS for security 
-    s.starttls() 
-    # Authentication 
-    SENDER_EMAIL = "naitick.jdn98@gmail.com"
-    SENDER_PASSWORD = "tyrion98"
-    s.login(SENDER_EMAIL, SENDER_PASSWORD) 
-      
-    # message to be sent 
-    # message = str(email_text)
-    FROM =SENDER_EMAIL
-    TO = input("Enter the receiver's email : ")
-    SUBJECT = "Speech to Speech Application"
-    TEXT = str(email_text)
-    message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)  
-    # sending the mail 
-    s.sendmail(FROM, TO, message) 
-      
-    # terminating the session 
-    s.quit() 
+
+ent2=Entry(root,tex=lan,font=('arial 13')).pack()
+
+but1=Button(root,text='Convert',width=20,bg='brown',fg='white',command=fetch).place(x=100,y=100)
+
+but2=Button(root,text='Play file',width=20,bg='brown',fg='white',command=play).place(x=100,y=140)
+
+lab4=Label(root,text='Do you want to mail this ?',font=('arial 16'),bg='powder blue',fg='black').place(x=200, y=250)
 
 
-if __name__=='__main__':
-    send_email()
-        
+root.mainloop()
+
