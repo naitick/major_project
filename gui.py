@@ -10,7 +10,7 @@ root.geometry('800x400')
 root.title("Google's Speech Application")
 root.config(background='powder blue')
 
-lab1=Label(root,text='Text To Speech Convertor',bg='powder blue',fg='black',font=('arial 16 bold')).pack()
+lab1=Label(root,text='Speech To Speech Translator',bg='powder blue',fg='black',font=('arial 16 bold')).pack()
 
 def speech2text():
     #Sample rate is how often values are recorded 
@@ -67,7 +67,7 @@ def fetch():
     tr_text=trtext.translate(to=language)
     ntext=str(tr_text)
     fintext = "translated text : " + ntext
-    labn=Label(root,text=fintext,font=('arial 16'),bg='powder blue',fg='black').place(x=200, y=200)
+    labn=Label(root,text=fintext,font=('arial 16'),bg='powder blue',fg='black').place(x=200, y=230)
     myob=gTTS(text=ntext,lang=language,slow=False)
     myob.save('Voice1.mp3')
 
@@ -78,14 +78,19 @@ def play():
    mixer.music.play()
 
 
+def close_window():
+    root.destroy()
 
 ent2=Entry(root,tex=lan,font=('arial 13')).pack()
 
 but1=Button(root,text='Convert',width=20,bg='brown',fg='white',command=fetch).place(x=100,y=100)
 
-but2=Button(root,text='Play file',width=20,bg='brown',fg='white',command=play).place(x=100,y=140)
+but2=Button(root,text='Play',width=20,bg='brown',fg='white',command=play).place(x=100,y=140)
 
-lab4=Label(root,text='Do you want to mail this ?',font=('arial 16'),bg='powder blue',fg='black').place(x=200, y=250)
+but3=Button(root,text='Close',width=20,bg='brown',fg='white',command=close_window).place(x=100,y=180)
+
+lab4=Label(root,text='Do you want to mail this ?',font=('arial 16'),bg='powder blue',fg='black').place(x=200, y=280)
+
 
 
 root.mainloop()

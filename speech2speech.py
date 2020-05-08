@@ -91,7 +91,7 @@ def send_email():
     # message = str(email_text)
     FROM =SENDER_EMAIL
     TO = input("Enter the receiver's email : ")
-    SUBJECT = "Speech to Speech Application"
+    SUBJECT = input("Enter the subject : ")
     TEXT = str(email_text)
     message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)  
     # sending the mail 
