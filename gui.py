@@ -89,9 +89,6 @@ but2=Button(root,text='Play',width=20,bg='brown',fg='white',command=play).place(
 
 but3=Button(root,text='Close',width=20,bg='brown',fg='white',command=close_window).place(x=100,y=180)
 
-lab4=Label(root,text='Do you want to mail this ?',font=('arial 16'),bg='powder blue',fg='black').place(x=200, y=280)
-
-
 
 root.mainloop()
 
